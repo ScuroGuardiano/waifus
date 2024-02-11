@@ -1,0 +1,27 @@
+(protect_internal) {
+    @internal {
+        path_regexp .*/__internal.*
+    }
+    
+    header @internal Content-Type text/html
+
+    respond @internal <<HTML
+        <html>
+            <head>
+                <title>418 - I am a teapot</title>
+            </head>
+            <body>
+                <center>
+                    <h1>418 - I am a teapot</h1>
+                    <hr>
+                    <p>ngonx 1.3.3.7</p>
+                </center>
+            </body>
+        </html>
+    HTML 200
+}
+
+http://* {
+    import protect_internal
+    respond /test "Hello, world!"
+}

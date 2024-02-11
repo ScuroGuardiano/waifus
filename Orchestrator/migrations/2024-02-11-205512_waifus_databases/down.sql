@@ -1,0 +1,1 @@
+DROP TABLE waifu_databases;

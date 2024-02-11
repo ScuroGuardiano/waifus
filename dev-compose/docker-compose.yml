@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: "postgres:16-alpine"
+    ports:
+      - "127.0.0.1:15432:5432"
+    shm_size: 2gb
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=change_me_plz
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=orchestrator
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "127.0.0.1:18080:8080"
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "127.0.0.1:12019:2019"
+      - "127.0.0.1:1337:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
